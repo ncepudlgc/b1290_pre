@@ -41,4 +41,4 @@ Can you remove excessive spacing from the betting overlay and move it down to ma
 
 ## PR链接
 
-待创建
+https://github.com/ncepudlgc/b1290_pre/pull/1
