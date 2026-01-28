@@ -30,22 +30,26 @@ public class GameFrame extends JFrame {
         setupFrame();
     }
 
+    private JLabel titleLabel;
+    
     private void initBettingOverlay() {
         bettingOverlay = new JPanel();
         bettingOverlay.setLayout(new BoxLayout(bettingOverlay, BoxLayout.Y_AXIS));
         bettingOverlay.setBackground(new Color(0, 0, 0, 180));
-        bettingOverlay.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+        // Reduced padding to remove excessive spacing
+        bettingOverlay.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
         
         // Create betting form panel
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
         formPanel.setBackground(new Color(53, 101, 77));
+        // Reduced padding
         formPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(Color.WHITE, 2),
-            BorderFactory.createEmptyBorder(30, 30, 30, 30)
+            BorderFactory.createEmptyBorder(15, 30, 15, 30)
         ));
         
-        JLabel titleLabel = new JLabel("Place Your Bet");
+        titleLabel = new JLabel("Place Your Bet");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -88,10 +92,13 @@ public class GameFrame extends JFrame {
         quickBetPanel.add(quick2000);
         quickBetPanel.add(quickAllIn);
         
-        formPanel.add(titleLabel);
-        formPanel.add(Box.createVerticalStrut(10));
+        // Only add title label if it's the first round
+        if (game.isFirstRound()) {
+            formPanel.add(titleLabel);
+            formPanel.add(Box.createVerticalStrut(10));
+        }
         formPanel.add(balanceLabel);
-        formPanel.add(Box.createVerticalStrut(20));
+        formPanel.add(Box.createVerticalStrut(15));
         formPanel.add(betLabel);
         formPanel.add(Box.createVerticalStrut(5));
         formPanel.add(betAmountField);
@@ -102,7 +109,8 @@ public class GameFrame extends JFrame {
         formPanel.add(Box.createVerticalStrut(10));
         formPanel.add(betButtonPanel);
         
-        bettingOverlay.add(Box.createVerticalGlue());
+        // Move overlay down by removing top glue and adding minimal spacing
+        bettingOverlay.add(Box.createVerticalStrut(200));
         bettingOverlay.add(formPanel);
         bettingOverlay.add(Box.createVerticalGlue());
         
@@ -163,6 +171,12 @@ public class GameFrame extends JFrame {
         balanceLabel.setText("Balance: ¥" + game.getPlayerBalance());
         betAmountField.setText("");
         clearBetError();
+        
+        // Hide title label after first round
+        if (titleLabel != null) {
+            titleLabel.setVisible(game.isFirstRound());
+        }
+        
         bettingOverlay.setVisible(true);
         betAmountField.requestFocus();
         
