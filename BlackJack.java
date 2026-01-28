@@ -19,6 +19,7 @@ public class BlackJack {
     private int playerBalance = 10000;
     private final int COURTESY_AMOUNT = 1000;
     private int currentBet = 0;
+    private boolean isFirstRound = true;
 
     public BlackJack() {
         startGame();
@@ -160,6 +161,11 @@ public class BlackJack {
     public void restartGame() {
         gameActive = true;
         resetGameState();
+        isFirstRound = false;
+    }
+    
+    public boolean isFirstRound() {
+        return isFirstRound;
     }
 
     public void addMoney(int amount) {
